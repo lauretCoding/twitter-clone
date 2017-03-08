@@ -15,7 +15,7 @@ class TweetController extends Controller
      */
     public function listAction(Request $request)
     {
-        $tweets = $this->getDoctrine()->getRepository(Tweet::class)->findAll();
+        $tweets = $this->getDoctrine()->getRepository(Tweet::class)->getLastTweets(5);
         return $this->render(':tweet:list.html.twig', [
             "tweets" => $tweets,
         ]);

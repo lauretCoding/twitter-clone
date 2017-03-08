@@ -10,4 +10,16 @@ namespace AppBundle\Repository;
  */
 class TweetRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param int $maxresults
+     * @return array
+     */
+    public function getLastTweets($maxresults = 10){
+        return $this->createQueryBuilder('t')
+                    ->select('t')
+                    ->setMaxResults($maxresults)
+                    ->orderBy('t.createdAt', 'DESC')
+                    ->getQuery()
+                    ->getResult();
+    }
 }
