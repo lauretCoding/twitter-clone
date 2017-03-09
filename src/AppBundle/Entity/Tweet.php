@@ -27,13 +27,7 @@ class Tweet
     /**
      * @var string
      * @Assert\NotBlank()
-<<<<<<< HEAD
-<<<<<<< HEAD
      * @Assert\Length(max="160")
-=======
->>>>>>> 904f1787cf2c8a300d1edb38c89dba71a24f09c6
-=======
->>>>>>> 904f1787cf2c8a300d1edb38c89dba71a24f09c6
      * @ORM\Column(name="message", type="string", length=160)
      */
     private $message;
