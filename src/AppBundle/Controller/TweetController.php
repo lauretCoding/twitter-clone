@@ -40,6 +40,7 @@ class TweetController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($tweet);
             $em->flush();
+            $this->addFlash('success','Votre tweet a bien été créé');
             return $this->redirectToRoute('app_tweet_view', ['id' => $tweet->getId()]);
         }
         return $this->render(':tweet:new.html.twig', [
