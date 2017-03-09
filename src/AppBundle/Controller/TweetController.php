@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\TweetType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use AppBundle\Entity\Tweet;
 
@@ -29,6 +29,25 @@ class TweetController extends Controller
     }
 
     /**
+     * @Route("/tweet/new", name="app_tweet_new",methods={"GET","POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $tweet = new Tweet();
+        $form = $this->createForm(TweetType::class, $tweet);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($tweet);
+            $em->flush();
+            return $this->redirectToRoute('app_tweet_view', ['id' => $tweet->getId()]);
+        }
+        return $this->render(':tweet:new.html.twig', [
+            "form" => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/tweet/{id}", name="app_tweet_view")
      */
     public function tweetAction($id)
@@ -40,8 +59,9 @@ class TweetController extends Controller
 
         return $this->render(':tweet:tweet.html.twig', [
             "tweet" => $tweet,
-            "date" => new \Datetime,
         ]);
     }
+
+
 }
 
