@@ -1,0 +1,41 @@
+{% extends "::base.html.twig" %}
+{% set difference = date(date).diff(date(tweet.createdAt)) %}
+{% set leftHours = difference.h %}
+
+
+
+
+    {% block title %}
+        Détail de {{ tweet.message }}
+    {% endblock %}
+
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+        <ul>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <li>
+                        <p title="{{ tweet.createdAt|date('d-m-Y H:i:s') }}">
+                            {% if leftHours == 1 %}
+                            1 h
+                        {% else %}
+                            {{ leftHours }} h
+                        {% endif %}
+                        </p>
+                        <p>{{ tweet.message }}</p>
+                    </li>
+                </div>
+            </div>
+        </ul>
+{% endblock %}
+
+
+
+{% block footer %}
+    {{ parent() }}
+    <a href="{{ path('app_twig_test') }}">Lien vers la page Twig Test</a>
+{% endblock %}

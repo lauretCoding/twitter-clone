@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Tweet;
 
 /**
  * TweetRepository
@@ -21,5 +22,19 @@ class TweetRepository extends \Doctrine\ORM\EntityRepository
                     ->orderBy('t.createdAt', 'DESC')
                     ->getQuery()
                     ->getResult();
+    }
+
+
+    /**
+     * @param $id
+     * @return Tweet
+     */
+    public function getTweet($id){
+        return $this->createQueryBuilder('t')
+                    ->select('t')
+                    ->andWhere('t.id = :id')
+                    ->setParameter('id', $id)
+                    ->getQuery()
+                    ->getOneOrNullResult();
     }
 }
