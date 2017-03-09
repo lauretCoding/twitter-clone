@@ -9,6 +9,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use AppBundle\Entity\Tweet;
 
+/**
+ * Class TweetController
+ * @package AppBundle\Controller
+ */
 class TweetController extends Controller
 {
     /**
@@ -31,8 +35,8 @@ class TweetController extends Controller
     {
         $tweet = $this->getDoctrine()->getRepository(Tweet::class)->getTweet($id);
 
-        if($tweet == null)
-            throw new NotFoundHttpException('Ce tweet n\'existe pas');
+        if(!$tweet instanceof Tweet)
+           throw $this->createNotFoundException(sprintf('Entity Tweet with identifier %d not found', $id));
 
         return $this->render(':tweet:tweet.html.twig', [
             "tweet" => $tweet,
