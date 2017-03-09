@@ -1,0 +1,32 @@
+{% extends "::base.html.twig" %}
+
+
+
+    {% block title 'Ajout' %}
+
+{% block header %}
+    <h1>Ajouter un tweet</h1>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.message) }}
+
+    {{ form_rest(form) }}
+
+    <input type="submit" class="btn btn-primary" name="submit" value="Tweet">
+
+    {# Fermeture de la balise <form> du formulaire HTML #}
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+{% block footer %}
+    {{ parent() }}
+    <a href="{{ path('app_twig_test') }}">Lien vers la page Twig Test</a>
+{% endblock %}
