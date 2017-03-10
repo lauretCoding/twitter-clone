@@ -12,13 +12,23 @@ use AppBundle\Entity\Tweet;
 
 class EmailMessenger
 {
+    /**
+     * @var \Swift_Mailer
+     */
     private $mailer;
 
+    /**
+     * EmailMessenger constructor.
+     * @param \Swift_Mailer $mailer
+     */
     public function __construct(\Swift_Mailer $mailer)
     {
         $this->mailer = $mailer;
     }
 
+    /**
+     * @param Tweet $tweet
+     */
     public function sendTweetCreated(Tweet $tweet){
         $message = \Swift_Message::newInstance()
                 ->setSubject('Super subject')
@@ -28,6 +38,9 @@ class EmailMessenger
         $this->send($message);
     }
 
+    /**
+     * @param $message
+     */
     private function send($message){
         $this->mailer->send($message);
     }

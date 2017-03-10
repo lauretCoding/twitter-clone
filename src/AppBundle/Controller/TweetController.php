@@ -20,9 +20,8 @@ class TweetController extends Controller
      */
     public function listAction(Request $request)
     {
-        $tweets = $this->getManager("app.tweet.manager")->getLast();
         return $this->render(':tweet:list.html.twig', [
-            "tweets" => $tweets,
+            "tweets" => $this->getManager("app.tweet.manager")->getLast(),
         ]);
     }
 
@@ -31,15 +30,19 @@ class TweetController extends Controller
      */
     public function newAction(Request $request)
     {
-        $tweet = $this->getManager("app.tweet.manager")->create();
-        $form = $this->createForm(TweetType::class, $tweet);
+        $form = $this->createForm(TweetType::class, $this->getManager("app.tweet.manager")->create());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getManager("app.tweet.manager")->save($tweet);
-            $this->getManager("app.email_messenger")->sendTweetCreated($tweet);
+            //Récupération du manager TweetManager
+            //Utilisation de la méthode save
+            //$form->getData() contient l'objet Tweet sans utiliser une variable intermédiaire
+            $this->getManager("app.tweet.manager")->save($form->getData());
+            //Récupération du manager EmailMessenger
+            //Utilisation de la méthode sendTweetCreated
+            $this->getManager("app.email_messenger")->sendTweetCreated($form->getData());
             $this->addFlash('success','Votre tweet a bien été créé');
-            return $this->redirectToRoute('app_tweet_view', ['id' => $tweet->getId()]);
+            return $this->redirectToRoute('app_tweet_view', ['id' => $form->getData()->getId()]);
         }
 
         return $this->render(':tweet:new.html.twig', [

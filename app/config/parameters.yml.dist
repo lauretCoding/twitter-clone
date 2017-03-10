@@ -19,3 +19,5 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     app.tweet.nb_last: 10
+    admin_email: lauret.jlouis@gmail.com
+    admin_name: lauretCoding
