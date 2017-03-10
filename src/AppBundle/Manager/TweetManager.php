@@ -55,4 +55,5 @@ class TweetManager
         $tweets = $this->em->getRepository(Tweet::class)->getLastTweets($this->nb_last);
         return $tweets;
     }
+
 }

@@ -51,6 +51,18 @@ class TweetController extends Controller
     }
 
     /**
+     * @Route("/tweet/favourite", name="app_tweet_favourite")
+     */
+    public function favouriteAction()
+    {
+        $tweets = $this->getManager("app.tweet.favourite")->show($this->getUser());
+        return $this->render(':tweet:favourite.html.twig', [
+            "tweets" => $tweets,
+        ]);
+    }
+
+
+    /**
      * @Route("/tweet/{id}", name="app_tweet_view")
      */
     public function tweetAction($id)
@@ -64,6 +76,8 @@ class TweetController extends Controller
             "tweet" => $tweet,
         ]);
     }
+
+
 
     private function getManager($manager){
         return $this->get($manager);

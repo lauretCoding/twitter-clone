@@ -11,3 +11,7 @@ services:
     app.email_messenger:
             class: AppBundle\Messenger\EmailMessenger
             arguments: ["@mailer"]
+
+    app.tweet.favourite:
+                class: AppBundle\Manager\FavouriteManager
+                arguments: ["@=service('doctrine').getManager()"]
