@@ -57,7 +57,7 @@ class TweetController extends Controller
 
         if(!$tweet instanceof Tweet)
            throw $this->createNotFoundException(sprintf('Entity Tweet with identifier %d not found', $id));
-
+        $translated = $this->get('translator')->trans('app.welcome');
         return $this->render(':tweet:tweet.html.twig', [
             "tweet" => $tweet,
         ]);
