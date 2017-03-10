@@ -20,9 +20,7 @@ class TweetController extends Controller
      */
     public function listAction(Request $request)
     {
-        $tweets = $this->getDoctrine()->getRepository(Tweet::class)->getLastTweets(
-            $this->getParameter('app.tweet.nb_last',10)
-        );
+        $tweets = $this->getManager()->getLast();
         return $this->render(':tweet:list.html.twig', [
             "tweets" => $tweets,
         ]);
@@ -33,16 +31,16 @@ class TweetController extends Controller
      */
     public function newAction(Request $request)
     {
-        $tweet = new Tweet();
+        $tweet = $this->getManager()->create();
         $form = $this->createForm(TweetType::class, $tweet);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($tweet);
-            $em->flush();
+            $this->getManager()->save($tweet);
             $this->addFlash('success','Votre tweet a bien été créé');
             return $this->redirectToRoute('app_tweet_view', ['id' => $tweet->getId()]);
         }
+
         return $this->render(':tweet:new.html.twig', [
             "form" => $form->createView(),
         ]);
@@ -57,12 +55,14 @@ class TweetController extends Controller
 
         if(!$tweet instanceof Tweet)
            throw $this->createNotFoundException(sprintf('Entity Tweet with identifier %d not found', $id));
-        $translated = $this->get('translator')->trans('app.welcome');
+        //$translated = $this->get('translator')->trans('app.welcome');
         return $this->render(':tweet:tweet.html.twig', [
             "tweet" => $tweet,
         ]);
     }
 
-
+    private function getManager(){
+        return $this->get("app.tweet.manager");
+    }
 }
 
