@@ -20,7 +20,7 @@ class TweetController extends Controller
      */
     public function listAction(Request $request)
     {
-        $tweets = $this->getManager()->getLast();
+        $tweets = $this->getManager("app.tweet.manager")->getLast();
         return $this->render(':tweet:list.html.twig', [
             "tweets" => $tweets,
         ]);
@@ -31,12 +31,13 @@ class TweetController extends Controller
      */
     public function newAction(Request $request)
     {
-        $tweet = $this->getManager()->create();
+        $tweet = $this->getManager("app.tweet.manager")->create();
         $form = $this->createForm(TweetType::class, $tweet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getManager()->save($tweet);
+            $this->getManager("app.tweet.manager")->save($tweet);
+            $this->getManager("app.email_messenger")->sendTweetCreated($tweet);
             $this->addFlash('success','Votre tweet a bien été créé');
             return $this->redirectToRoute('app_tweet_view', ['id' => $tweet->getId()]);
         }
@@ -61,8 +62,8 @@ class TweetController extends Controller
         ]);
     }
 
-    private function getManager(){
-        return $this->get("app.tweet.manager");
+    private function getManager($manager){
+        return $this->get($manager);
     }
 }
 
