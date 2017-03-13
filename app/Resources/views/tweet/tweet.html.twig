@@ -16,6 +16,9 @@
                     <li>
                         <p title="{{ tweet.createdAt|date('d-m-Y H:i:s') }}"> {{ tweet.createdAt|time_ago_in_words  }}</p>
                         <p>{{ tweet.message }}</p>
+                        {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path('app_tweet_add_favourite', { 'tweet' : tweet.id }) }}">Ajouter au favoris</a>
+                        {% endif %}
                     </li>
                 </div>
             </div>

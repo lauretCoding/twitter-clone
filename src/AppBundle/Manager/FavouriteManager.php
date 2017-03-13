@@ -8,6 +8,7 @@
 
 namespace AppBundle\Manager;
 use AppBundle\Entity\Favourite;
+use AppBundle\Entity\Tweet;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -29,11 +30,26 @@ class FavouriteManager
         $this->em = $em;
     }
 
+    public function create(){
+        return new Favourite();
+    }
 
     public function show(User $user){
         $tweets = $this->em->getRepository(Favourite::class)->getFavourite($user);
         return $tweets;
     }
 
+    public function addFavourite(User $user, Tweet $tweet){
+        $favourite = $this->create();
+        $favourite->setUser($user);
+        $favourite->setTweet($tweet);
+        return $favourite;
+    }
+
+
+    public function save(Favourite $favourite){
+        $this->em->persist($favourite);
+        $this->em->flush();
+    }
 
 }

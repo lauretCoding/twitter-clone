@@ -51,6 +51,16 @@ class TweetController extends Controller
     }
 
     /**
+     * @Route("/tweet/addFavourite/{tweet}", name="app_tweet_add_favourite")
+     */
+    public function addFavouriteAction(Tweet $tweet)
+    {
+        $favorite = $this->getManager("app.tweet.favourite")->addFavourite($this->getUser(), $tweet);
+        $this->getManager("app.tweet.favourite")->save($favorite);
+        return $this->redirectToRoute('app_tweet_favourite');
+    }
+
+    /**
      * @Route("/tweet/favourite", name="app_tweet_favourite")
      */
     public function favouriteAction()
@@ -60,6 +70,8 @@ class TweetController extends Controller
             "tweets" => $tweets,
         ]);
     }
+
+
 
 
     /**

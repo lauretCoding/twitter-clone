@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 use AppBundle\Entity\Favourite;
+use AppBundle\Entity\Tweet;
 use AppBundle\Entity\User;
 
 /**
@@ -21,4 +22,5 @@ class FavouriteRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
 }

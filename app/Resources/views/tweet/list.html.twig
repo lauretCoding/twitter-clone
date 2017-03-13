@@ -13,7 +13,12 @@
         {% for tweet in tweets %}
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <li><a href="{{ path('app_tweet_view', { 'id' : tweet.id }) }}">{{ tweet.message }} à {{ tweet.createdAt|date("H:i") }}</a></li>
+                    <li>
+                        <a href="{{ path('app_tweet_view', { 'id' : tweet.id }) }}">{{ tweet.message }} à {{ tweet.createdAt|date("H:i") }}</a>
+                    {% if is_granted('ROLE_USER') %}
+                        <a href="{{ path('app_tweet_add_favourite', { 'tweet' : tweet.id }) }}"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></a>
+                    {% endif %}
+                    </li>
                 </div>
             </div>
             {% else %}
